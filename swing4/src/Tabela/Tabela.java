@@ -21,6 +21,7 @@ public class Tabela extends javax.swing.JFrame {
      */
     public Tabela() {
         initComponents();
+        setSize(570, 550);
         jSlider1.setValue(jSlider1.getMinimum());
         jSlider2.setValue(jSlider2.getMaximum());
         drag1(null);
