@@ -9,6 +9,8 @@ import java.awt.FileDialog;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Scanner;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -27,6 +29,7 @@ public class Dane extends javax.swing.JFrame {
         initComponents();
         model = (DefaultTableModel)jTable1.getModel();
         jPanel2.setVisible(false);
+        jLabel5.setVisible(false);
     }
     void statystyka(int losób, int locen){
         jPanel2.setVisible(false);
@@ -58,6 +61,7 @@ public class Dane extends javax.swing.JFrame {
         jCheckBox2 = new javax.swing.JCheckBox();
         jComboBox1 = new javax.swing.JComboBox<>();
         jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jPanel2 = new javax.swing.JPanel();
@@ -122,14 +126,17 @@ public class Dane extends javax.swing.JFrame {
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2", "3", "3.5", "4", "4.5", "5" }));
         jPanel1.add(jComboBox2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 70, -1, -1));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 140, 100));
+        jLabel5.setText("jLabel5");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, 240, 40));
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 570, 260, 150));
 
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Courier New", 0, 11)); // NOI18N
         jTextArea1.setRows(5);
         jScrollPane2.setViewportView(jTextArea1);
 
-        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 570, 270, 210));
+        getContentPane().add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 580, 270, 210));
 
         jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -145,7 +152,7 @@ public class Dane extends javax.swing.JFrame {
         jProgressBar1.setStringPainted(true);
         jPanel2.add(jProgressBar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 40, 60, 20));
 
-        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 680, 140, 100));
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 730, 270, 100));
 
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/save.GIF"))); // NOI18N
         jButton2.setText("Zapisz wybór");
@@ -154,7 +161,7 @@ public class Dane extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 580, -1, -1));
+        getContentPane().add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 580, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -183,18 +190,26 @@ public class Dane extends javax.swing.JFrame {
         // TODO add your handling code here:
         int osoby = 0;
         int oceny = 0;
+        double srednia = 0;
+        NumberFormat fo = new DecimalFormat("0.##");
         jTextArea1.setText("");
         for (int i = 0; i < jTable1.getRowCount(); i++){
             if(jCheckBox1.isSelected() && !((jComboBox1.getSelectedItem()).equals(jTable1.getValueAt(i,2)))){
                 continue;
             }
             osoby++;
+            srednia += Double.parseDouble(jTable1.getValueAt(i,4)+"");
             if(jCheckBox2.isSelected()&&!((jComboBox2.getSelectedItem()).equals(jTable1.getValueAt(i,4)))){
                 continue;
             }
             oceny++;
-            jTextArea1.append(jTable1.getValueAt(i,1)+""+jTable1.getValueAt(i, 2)+""+jTable1.getValueAt(i,4)+"\n");
+            jTextArea1.append(jTable1.getValueAt(i,1)+""+jTable1.getValueAt(i, 2)+" "+jTable1.getValueAt(i,4)+"\n");
+            //srednia += Double.parseDouble(jTable1.getValueAt(i,4)+"");
         }
+        srednia = srednia / osoby;
+        if (jCheckBox1.isSelected()){jLabel5.setText("Średnia grupy "+ jComboBox1.getSelectedItem()+ " " + fo.format(srednia));}
+        else {jLabel5.setText("Średnia roku " + fo.format(srednia));}
+        jLabel5.setVisible(true);
         statystyka(osoby,oceny);
     }//GEN-LAST:event_wybierzDane
 
@@ -259,6 +274,7 @@ public class Dane extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar1;
